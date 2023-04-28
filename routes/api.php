@@ -25,8 +25,8 @@ Route::get('/jabatan', [ApiController::class, 'getJabatanList']);
 
 Route::prefix('kontrak')->group(function () {
     Route::get('/', [ApiController::class, 'getKontrakList']);
-    Route::post('/create', [ApiController::class, 'storeKontrak']);
+    Route::post('/', [ApiController::class, 'storeKontrak']);
     Route::get('/{id}', [ApiController::class, 'getKontrak']);
-    Route::put('/edit/{id}', [ApiController::class, 'updateKontrak']);
-    Route::delete('/delete/{id}', [ApiController::class, 'deleteKontrak']);
+    Route::match(['post', 'put'], '/{id}', [ApiController::class, 'updateKontrak']);
+    Route::delete('/{id}', [ApiController::class, 'deleteKontrak']);
 });

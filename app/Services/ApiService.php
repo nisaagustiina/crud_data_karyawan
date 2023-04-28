@@ -7,6 +7,7 @@ use App\Models\Jabatan;
 use App\Models\Kontrak;
 use App\Traits\ApiResponser;
 use Exception;
+use Illuminate\Support\Facades\Validator;
 
 class ApiService
 {
@@ -14,7 +15,7 @@ class ApiService
 
     private $pegawaiModel, $jabatanModel, $kontrakModel;
 
-    public function __contruct(
+    public function __construct(
         Pegawai $pegawaiModel,
         Jabatan $jabatanModel,
         Kontrak $kontrakModel
@@ -113,7 +114,7 @@ class ApiService
             $result['count'] = $count;
             $result['offset'] = $offset;
             $result['limit'] = $limit;
-            $result['data'] = $jabatan->paginate($limit);
+            $result['data'] = $jabatan->select('id','nama')->paginate($limit);
             $result['params'] = [
                 'filter' => $filter,
                 'orderBy' => $orderBy
@@ -126,7 +127,7 @@ class ApiService
             $result['count'] = $count;
             $result['offset'] = $offset;
             $result['limit'] = $limit;
-            $result['data'] = $jabatan->get();
+            $result['data'] = $jabatan->select('id','nama')->get();
             $result['params'] = [
                 'filter' => $filter,
                 'orderBy' => $orderBy
@@ -209,15 +210,36 @@ class ApiService
     public function storeKontrak($data)
     {
         $kontrak = new Kontrak();
+
         try{
+            $validator = Validator::make($data->all(), [
+                'pegawai_id' => 'required',
+                'jabatan_id' => 'required',
+                'tanggal_surat' => 'required',
+                'tanggal_awal' => 'required',
+                'tanggal_akhir' => 'required',
+                'jenis_kerjasama' => 'required',
+                'dokumen' => 'mimes:jpg,png,pdf|max:2048'
+            ]);
+            
+            if ($validator->fails()) {
+                return $this->error(null, $validator->errors());
+            }
+
             $kontrak->pegawai_id = $data->pegawai_id;
             $kontrak->jabatan_id = $data->jabatan_id;
             $kontrak->tanggal_surat = $data->tanggal_surat;
             $kontrak->tanggal_awal = $data->tanggal_awal;
             $kontrak->tanggal_akhir = $data->tanggal_akhir;
-            $kontrak->dokumen = $data->dokumen;
             $kontrak->jenis_kerjasama = $data->jenis_kerjasama;
-            $kontrak->durasi = $data->durasi;
+            $kontrak->durasi = date('Y', $data->tanggal_akhir) - date('Y', $data->tanggal_awal);
+
+            $doc = $data->dokumen;
+            if($doc){
+                $dokumen = $doc->store('dokumen_kontrak','public');
+                $kontrak->dokumen = $dokumen;
+            }
+
             $kontrak->save();
             
             return $this->success($kontrak, 'Data has been saved!');
@@ -231,14 +253,38 @@ class ApiService
         $kontrak = $this->getKontrak($where);
 
         try {
+            $validator = Validator::make($data->all(), [
+                'pegawai_id' => 'required',
+                'jabatan_id' => 'required',
+                'tanggal_surat' => 'required',
+                'tanggal_awal' => 'required',
+                'tanggal_akhir' => 'required',
+                'jenis_kerjasama' => 'required',
+                'dokumen' => 'mimes:jpg,png,pdf|max:2048'
+            ]);
+            
+            if ($validator->fails()) {
+                return $this->error(null, $validator->errors());
+            }
+
             $kontrak->pegawai_id = $data->pegawai_id;
             $kontrak->jabatan_id = $data->jabatan_id;
             $kontrak->tanggal_surat = $data->tanggal_surat;
             $kontrak->tanggal_awal = $data->tanggal_awal;
             $kontrak->tanggal_akhir = $data->tanggal_akhir;
-            $kontrak->dokumen = $data->dokumen;
             $kontrak->jenis_kerjasama = $data->jenis_kerjasama;
-            $kontrak->durasi = $data->durasi;
+            $kontrak->durasi = date('Y', $data->tanggal_akhir) - date('Y', $data->tanggal_awal);
+
+            $new_doc = $data->dokumen;
+
+            if($new_doc){
+                if($kontrak->dokumen && file_exists(storage_path('app/public/' . $kontrak->dokumen))){
+                    \Storage::delete('public/'. $kontrak->dokumen);
+                }
+    
+                $dokumen = $new_doc->store('dokumen_kontrak', 'public');
+                $kontrak->dokumen = $dokumen;
+            }
             $kontrak->save();
 
             return $this->success($kontrak, 'Data has been updated!');

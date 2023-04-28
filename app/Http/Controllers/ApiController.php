@@ -14,7 +14,7 @@ class ApiController extends Controller
 
    private $apiService;
 
-   public function __contsruct(
+   public function __construct(
     ApiService $apiService
    ){
     $this->apiService = $apiService;
@@ -55,7 +55,7 @@ class ApiController extends Controller
             $orderType = 'asc';
         }
 
-        $data = $this->apiService->getPegawaiList($filter, false, 0, 10, [], [$orderBy => $orderType]);
+        $data = $this->apiService->getPegawaiList($filter, false, 0, 11, [], [$orderBy => $orderType]);
 
         return $this->success($data);
    }
@@ -136,7 +136,7 @@ class ApiController extends Controller
         $orderType = 'asc';
       }
 
-      $data = $this->apiService->getKontrakList($filter, false, 0, 10, ['pegawai','jabatan'], [$orderBy => $orderType]);
+      $data = $this->apiService->getKontrakList($filter, false, 0, 11, ['pegawai','jabatan'], [$orderBy => $orderType]);
 
       return $this->success($data);
     }
