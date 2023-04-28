@@ -14,11 +14,11 @@ class Kontrak extends Model
 
     public function pegawai()
     {
-        return $this->hasOne(Kontrak::class, 'pegawai_id', 'id');
+        return $this->belongsTo(Pegawai::class, 'pegawai_id', 'id');
     }
 
     public function jabatan()
     {
-        return $this->hasOne(Jabatan::class , 'pegawai_id','id');
+        return $this->belongsTo(jabatan::class , 'jabatan_id','id');
     }
 }

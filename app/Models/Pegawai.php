@@ -14,6 +14,6 @@ class Pegawai extends Model
 
     public function kontrak()
     {
-        return $this->belongsTo(Kontrak::class, 'pegawai_id', 'id');
+        return $this->hasOne(Kontrak::class, 'pegawai_id', 'id');
     }
 }

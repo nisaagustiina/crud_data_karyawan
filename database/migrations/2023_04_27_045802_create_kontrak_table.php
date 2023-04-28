@@ -22,7 +22,7 @@ class CreateKontrakTable extends Migration
             $table->date('tanggal_akhir');
             $table->integer('durasi');
             $table->string('jenis_kerjasama');
-            $table->string('dokumen');
+            $table->string('dokumen')->default(null);
             $table->timestamps();
         });
     }

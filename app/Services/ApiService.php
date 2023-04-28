@@ -232,7 +232,7 @@ class ApiService
             $kontrak->tanggal_awal = $data->tanggal_awal;
             $kontrak->tanggal_akhir = $data->tanggal_akhir;
             $kontrak->jenis_kerjasama = $data->jenis_kerjasama;
-            $kontrak->durasi = date('Y', $data->tanggal_akhir) - date('Y', $data->tanggal_awal);
+            $kontrak->durasi = date("Y", strtotime($data->tanggal_akhir)) - date("Y", strtotime($data->tanggal_awal));
 
             $doc = $data->dokumen;
             if($doc){
@@ -273,7 +273,7 @@ class ApiService
             $kontrak->tanggal_awal = $data->tanggal_awal;
             $kontrak->tanggal_akhir = $data->tanggal_akhir;
             $kontrak->jenis_kerjasama = $data->jenis_kerjasama;
-            $kontrak->durasi = date('Y', $data->tanggal_akhir) - date('Y', $data->tanggal_awal);
+            $kontrak->durasi = date("Y", strtotime($data->tanggal_akhir)) - date("Y", strtotime($data->tanggal_awal));
 
             $new_doc = $data->dokumen;
 

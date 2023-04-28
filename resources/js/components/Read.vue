@@ -27,20 +27,24 @@
                                     <th scope="col">Pegawai</th>
                                     <th scope="col">Jabatan</th>
                                     <th scope="col">Jenis Kerja Sama</th>
-                                    <th scope="col">Dokumen</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(kontrak, k) in kontraks" :key="k">
+                                <tr v-for="(kontrak, k) in kontraks.data" :key="k">
                                     <td>{{ ++k }}</td>
                                     <td>{{ kontrak.tanggal_surat }}</td>
-                                    <td>{{ kontrak.tanggal_mulai }}</td>
+                                    <td>{{ kontrak.tanggal_awal }}</td>
                                     <td>{{ kontrak.tanggal_akhir }}</td>
                                     <td>{{ kontrak.pegawai.nama_lengkap }}</td>
-                                    <td>{{ kontrak.jabatan.nama }}</td>
+                                    <td>
+                                        {{
+                                            kontrak.jabatan != null
+                                                ? kontrak.jabatan.nama
+                                                : ""
+                                        }}
+                                    </td>
                                     <td>{{ kontrak.jenis_kerjasama }}</td>
-                                    <td>{{ kontrak.dokumen }}</td>
                                     <td>
                                         <div style="display: flex">
                                             <router-link

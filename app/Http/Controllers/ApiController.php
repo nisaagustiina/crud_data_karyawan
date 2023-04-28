@@ -146,19 +146,19 @@ class ApiController extends Controller
         return $this->apiService->storeKontrak($request);
     }
 
-    public function getKontrak(Kontrak $kontrak)
+    public function getKontrak($id)
     {
-        $data = $this->apiService->getKontrak(['id' => $kontrak->id],[]);
+        $data = $this->apiService->getKontrak(['id' => $id],[]);
         return $this->success($data);
     }
 
-    public function updateKontrak(Request $request, Kontrak $kontrak)
+    public function updateKontrak(Request $request, $id)
     {
-        return $this->apiService->updateKontrak(['id' => $kontrak->id], $request);
+        return $this->apiService->updateKontrak(['id' => $id], $request);
     }
 
-    public function deleteKontrak(Kontrak $kontrak)
+    public function deleteKontrak($id)
     {
-        return $this->apiService->deleteKontrak(['id' => $kontrak->id]);
+        return $this->apiService->deleteKontrak(['id' => $id]);
     }
 }

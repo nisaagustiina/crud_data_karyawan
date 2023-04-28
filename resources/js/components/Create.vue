@@ -82,16 +82,6 @@
                                 </select>
                             </div>
                             <br />
-                            <div class="form-group">
-                                <label for="">Dokumen Kontrak Kerja</label>
-                                <input
-                                    type="file"
-                                    id="dokumen"
-                                    class="form-control"
-                                    @change="handleFile($event)"
-                                />
-                            </div>
-                            <br />
                             <button class="btn btn-success" type="submit">
                                 Submit
                             </button>
@@ -131,25 +121,15 @@ export default {
         this.jabatanList();
     },
     methods: {
-        handleFile(event) {
-            this.form.dokumen = event.target.files[0];
-        },
         addData() {
-            let formData = new FormData();
-
-            formData.append("dokumen", this.form.dokumen);
-            formData.append("tanggal_surat", this.form.tanggal_surat);
-            formData.append("tanggal_awal", this.form.tanggal_mulai);
-            formData.append("tanggal_akhir", this.form.tanggal_selesai);
-            formData.append("jenis_kerjasama", this.form.jenis_kerja);
-            formData.append("pegawai_id", this.form.pegawai_id);
-            formData.append("jabatan_id", this.form.jabatan_id);
-
             axios
-                .post("http://localhost:8000/api/kontrak", formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
+                .post("http://localhost:8000/api/kontrak", {
+                    tanggal_surat: this.form.tanggal_surat,
+                    tanggal_awal: this.form.tanggal_mulai,
+                    tanggal_akhir: this.form.tanggal_selesai,
+                    jenis_kerjasama: this.form.jenis_kerja,
+                    pegawai_id: this.form.pegawai_id,
+                    jabatan_id: this.form.jabatan_id,
                 })
                 .then((response) => {
                     this.$router.push("/");
