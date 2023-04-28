@@ -6,14 +6,20 @@
                     <div class="card-body">
                         <h4>Create Data</h4>
                         <hr />
-                        <form @submit.prevent="addData()">
+                        <Form
+                            @submit.prevent="addData()"
+                            :validation-schema="schema"
+                            v-slot="{ errors }"
+                        >
                             <div class="form-group">
                                 <label for="">Tanggal Surat</label>
                                 <input
                                     type="date"
                                     class="form-control"
                                     v-model="form.tanggal_surat"
+                                    :class="{ 'is-invalid': errors.tanggal_surat }"
                                 />
+                                <div class="invalid-feedback">{{errors.tanggal_surat}}</div>
                             </div>
                             <br />
                             <div class="form-group">
@@ -85,7 +91,7 @@
                             <button class="btn btn-success" type="submit">
                                 Submit
                             </button>
-                        </form>
+                        </Form>
                     </div>
                 </div>
             </div>
@@ -93,9 +99,27 @@
     </div>
 </template>
 <script>
+import { Form, Field } from "vee-validate";
+import * as Yup from "yup";
 export default {
+    components: {
+        Form,
+        Field,
+    },
     data() {
+        const schema = Yup.object().shape({
+            tanggal_surat: Yup.date().required("Tanggal Surat is required"),
+            tanggal_mulai: Yup.string().required("Tanggal Mulai is required"),
+            tanggal_selesai: Yup.string().required(
+                "Tanggal Selesai is required"
+            ),
+            pegawai_id: Yup.string().required("Pegawai is required"),
+            jabatan_id: Yup.string().required("Jabatan is required"),
+            jenis_kerja: Yup.string().required("Jenis Kerja Sama is required"),
+        });
+
         return {
+            schema,
             form: {
                 tanggal_surat: "",
                 tanggal_mulai: "",
