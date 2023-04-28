@@ -233,13 +233,6 @@ class ApiService
             $kontrak->tanggal_akhir = $data->tanggal_akhir;
             $kontrak->jenis_kerjasama = $data->jenis_kerjasama;
             $kontrak->durasi = date("Y", strtotime($data->tanggal_akhir)) - date("Y", strtotime($data->tanggal_awal));
-
-            $doc = $data->dokumen;
-            if($doc){
-                $dokumen = $doc->store('dokumen_kontrak','public');
-                $kontrak->dokumen = $dokumen;
-            }
-
             $kontrak->save();
             
             return $this->success($kontrak, 'Data has been saved!');
@@ -274,17 +267,6 @@ class ApiService
             $kontrak->tanggal_akhir = $data->tanggal_akhir;
             $kontrak->jenis_kerjasama = $data->jenis_kerjasama;
             $kontrak->durasi = date("Y", strtotime($data->tanggal_akhir)) - date("Y", strtotime($data->tanggal_awal));
-
-            $new_doc = $data->dokumen;
-
-            if($new_doc){
-                if($kontrak->dokumen && file_exists(storage_path('app/public/' . $kontrak->dokumen))){
-                    \Storage::delete('public/'. $kontrak->dokumen);
-                }
-    
-                $dokumen = $new_doc->store('dokumen_kontrak', 'public');
-                $kontrak->dokumen = $dokumen;
-            }
             $kontrak->save();
 
             return $this->success($kontrak, 'Data has been updated!');

@@ -9,11 +9,7 @@
                                 <h4>Kontrak Pegawai</h4>
                             </div>
                             <div class="col-md-2">
-                                <router-link
-                                    class="btn btn-primary w-100"
-                                    to="/create"
-                                    >Add</router-link
-                                >
+                                <router-link class="btn btn-primary w-100" to="/create">Add</router-link>
                             </div>
                         </div>
                         <hr />
@@ -40,23 +36,16 @@
                                     <td>
                                         {{
                                             kontrak.jabatan != null
-                                                ? kontrak.jabatan.nama
-                                                : ""
+                                            ? kontrak.jabatan.nama
+                                            : ""
                                         }}
                                     </td>
                                     <td>{{ kontrak.jenis_kerjasama }}</td>
                                     <td>
                                         <div style="display: flex">
-                                            <router-link
-                                                class="btn btn-warning"
-                                                :to="'/update/' + kontrak.id"
-                                                style="margin-right: 5px"
-                                                >Update</router-link
-                                            >
-                                            <button
-                                                class="btn btn-danger"
-                                                @click="deleteData(kontrak.id)"
-                                            >
+                                            <router-link class="btn btn-warning" :to="'/update/' + kontrak.id"
+                                                style="margin-right: 5px">Update</router-link>
+                                            <button class="btn btn-danger" @click="deleteData(kontrak.id)">
                                                 Delete
                                             </button>
                                         </div>
@@ -88,12 +77,14 @@ export default {
             });
         },
         deleteData(id) {
-            axios
-                .delete("http://localhost:8000/api/kontrak/" + id)
-                .then((res) => {
-                    this.loadData();
-                });
-        },
+            if (confirm("Are you sure you want to remove this data?")) {
+                axios
+                    .delete("http://localhost:8000/api/kontrak/" + id)
+                    .then((res) => {
+                        this.loadData();
+                    });
+            }
+        }
     },
 };
 </script>

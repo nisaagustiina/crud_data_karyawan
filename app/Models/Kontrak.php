@@ -10,7 +10,7 @@ class Kontrak extends Model
     use HasFactory;
 
     protected $table = 'kontrak';
-    protected $fillable = ['pegawai_id','jabatan_id','tanggal_surat','tanggal_awal','tanggal_akhir','durasi','dokumen','jenis_kerjasama'];
+    protected $fillable = ['pegawai_id','jabatan_id','tanggal_surat','tanggal_awal','tanggal_akhir','durasi','jenis_kerjasama'];
 
     public function pegawai()
     {
