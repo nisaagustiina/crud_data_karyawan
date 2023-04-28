@@ -55,7 +55,7 @@ class ApiController extends Controller
             $orderType = 'asc';
         }
 
-        $data = $this->apiService->getPegawaiList($filter, false, 0, 11, [], [$orderBy => $orderType]);
+        $data = $this->apiService->getPegawaiList($filter, false, 0, 11, ['kontrak'], [$orderBy => $orderType]);
 
         return $this->success($data);
    }

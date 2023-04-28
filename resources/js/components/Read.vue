@@ -1,6 +1,10 @@
 <template>
     <div class="container mt-5">
         <div class="row">
+            <div class="col-md-2">
+                <router-link class="btn btn-primary w-100" to="/pegawai">List Pegawai</router-link>
+            </div>
+            <br><br><br>
             <div class="col-md-12">
                 <div class="card border-0 rounded shadow">
                     <div class="card-body">
